@@ -18,6 +18,9 @@ public class EmployeeDb {
 
     }
     public String getFirstName() {
+        if ( employee == null) {
+            return null;
+        }
         return employee.getFirstName();
     }
 }

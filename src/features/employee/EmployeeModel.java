@@ -30,7 +30,8 @@ public class EmployeeModel {
         }
     }
     boolean UserAlreadyExists(String username) {
-        if ( username.equals(EmployeeDb.getInstance().getFirstName())) {
+
+        if ( username.equals(EmployeeDb.getInstance().getFirstName()) && EmployeeDb.getInstance().getFirstName() != null) {
             return true;
         }
         else {
