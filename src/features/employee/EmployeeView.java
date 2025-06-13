@@ -43,6 +43,10 @@ public class EmployeeView {
         Util.prompt("Enter your FirstName : ");
         return Util.readLine();
     }
+    String getUserName() {
+        Util.prompt("Enter the UserName : ");
+        return Util.readLine();
+    }
     String getLastName() {
         Util.prompt("Enter your LastName : ");
         return Util.readLine();
@@ -62,6 +66,7 @@ public class EmployeeView {
     void employeeRegisterView() {
         employee.setFirstName(getFirstName());
         employee.setLastName(getLastName());
+        employee.setUserName(getUserName());
         employee.setEmail(getEmail());
         employee.setPassword(getPassword());
         employee.setRePassword(getRePassword());
@@ -69,6 +74,26 @@ public class EmployeeView {
     }
 
     void employeeLoginView() {
+
+    }
+
+    public void loginSuccess() {
+        Util.message("Login Successfull..");
+        Util.prompt("1. ShowTimes ");
+        Util.prompt("2. Add Movies ");
+        Util.prompt("3. Exit");
+        int choice = Util.readInt();
+        switch (choice) {
+            case 1 -> {
+
+            }
+            case 2 -> {
+
+            }
+            case 3 -> {
+                System.exit(0);
+            }
+        }
 
     }
 }

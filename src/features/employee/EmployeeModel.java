@@ -13,15 +13,28 @@ public class EmployeeModel {
 
 
     public void employeeLogin() {
-
+        String username = view.getUserName();
+        String password = view.getPassword();
+        if ( validCredentials(username,password)) {
+            view.loginSuccess();
+        }else {
+            Util.printError("Enter correct Credentials...");
+            employeeLogin();
+        }
     }
 
     void employeeRegister() {
 
     }
+    boolean validCredentials(String username,String password) {
+        if ( username.equals(EmployeeDb.getInstance().getUserName()) && password.equals(EmployeeDb.getInstance().getpassword())) {
+            return true;
+        }
+        return false;
+    }
 
     void registration(Employee employee) {
-        if ( UserAlreadyExists(employee.getFirstName())) {
+        if ( UserAlreadyExists(employee.getUserName())) {
             Util.printError("Already a User..");
         }
         else {
@@ -31,7 +44,7 @@ public class EmployeeModel {
     }
     boolean UserAlreadyExists(String username) {
 
-        if ( username.equals(EmployeeDb.getInstance().getFirstName()) && EmployeeDb.getInstance().getFirstName() != null) {
+        if ( username.equals(EmployeeDb.getInstance().getUserName()) && EmployeeDb.getInstance().getUserName() != null) {
             return true;
         }
         else {

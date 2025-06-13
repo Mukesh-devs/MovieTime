@@ -17,10 +17,16 @@ public class EmployeeDb {
         this.employee = employee;
 
     }
-    public String getFirstName() {
+    public String getUserName() {
         if ( employee == null) {
             return null;
         }
         return employee.getFirstName();
+    }
+    public String getpassword() {
+        if ( employee == null) {
+            return null;
+        }
+        return employee.getPassword();
     }
 }
