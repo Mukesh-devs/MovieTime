@@ -21,7 +21,7 @@ public class MovieTimeBookingSystem {
                 System.exit(0);
             }
             default -> {
-                printError("Enter the Correct the choice");
+                Util.printError("Enter the Correct the choice");
                 askRegisterLogin();
             }
         }
