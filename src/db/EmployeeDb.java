@@ -21,7 +21,14 @@ public class EmployeeDb {
         if ( employee == null) {
             return null;
         }
-        return employee.getFirstName();
+        return employee.getUserName();
+    }
+
+    public boolean validatePassword(String pass) {
+        if ( employee.getPassword().equals(pass)) {
+            return true;
+        }
+        return false;
     }
     public String getpassword() {
         if ( employee == null) {
