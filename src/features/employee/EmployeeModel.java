@@ -35,12 +35,12 @@ public class EmployeeModel {
     }
 
     void registration(Employee employee) {
-        if ( UserAlreadyExists(employee.getUserName())) {
-            Util.printError("Already a User..");
+        if ( EmployeeDb.getInstance().userAlreadyExist(employee.getUserName()) ) {
+            view.registrationFailure();
         }
         else {
-            EmployeeDb.getInstance().setEmployee(employee);
-            view.EmployeeMenu();
+            EmployeeDb.getInstance().save(employee);
+            view.registrationSuccess();
         }
     }
     boolean UserAlreadyExists(String username) {
@@ -59,14 +59,16 @@ public class EmployeeModel {
         employee.setPassword(pass);
         employee.setEmail(email);
         registration(employee);
+
+
     }
 
     public void employeeLoginModel(String userName, String pass) {
-        if ( EmployeeDb.getInstance().validatePassword(pass) ) {
+        if (EmployeeDb.getInstance().validate(userName, pass)) {
             view.loginSuccess();
-        }
-        else {
+        } else {
             view.loginFailure();
         }
     }
+
 }

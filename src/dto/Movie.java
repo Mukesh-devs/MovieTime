@@ -1,25 +1,9 @@
 package dto;
 
 public class Movie {
-    private String movieName;
+    private int Id;
 
-    }
-
-    }
-
-    public String getMovieName() {
-        return movieName;
-    }
-
-    public void setMovieName(String movieName) {
-        this.movieName = movieName;
-    }
-
-    }
-
-    }
-
-    }
-
+    public int getId() {
+        return Id;
     }
 }

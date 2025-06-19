@@ -1,13 +1,16 @@
 package dto;
 
 public class User {
-    private int userId;
+    private static int userId = 1000;
     private String name;
     private String userName;
     private String password;
     private String email;
     private String mobileNo;
 
+    public User() {
+        userId++;
+    }
     public String getMobileNo() {
         return mobileNo;
     }

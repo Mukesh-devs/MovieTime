@@ -1,7 +1,7 @@
 package dto;
 
 public class Employee {
-    private static int empId;
+    private static int empId = 1000;
     private String name;
     private String userName;
     private String password;
