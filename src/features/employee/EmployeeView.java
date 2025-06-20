@@ -1,9 +1,13 @@
 package features.employee;
 
 import db.EmployeeDb;
+import db.MovieDb;
 import dto.Employee;
+import dto.Movie;
 import util.Util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class EmployeeView {
@@ -90,16 +94,71 @@ public class EmployeeView {
                     "4. Logout");
             int choice = Util.choice();
             switch (choice) {
-//                case 1 -> addMovieView();
-//                case 2 -> removeMovieView();
-//                case 3 -> viewAllMovies();
+                case 1 -> addMovieView();
+                case 2 -> removeMovieView();
+                case 3 -> viewAllMovies();
                 case 4 -> {
                     Util.message("Logging out...");
-                    return;
+                    init();
                 }
                 default -> Util.printError("Invalid choice. Please select again.");
             }
         }
+    }
+
+    private void removeMovieView() {
+        viewAllMovies();
+        Util.prompt("Enter the MovieId to remove : ");
+        int removeMovieChoice = Util.readInt();
+        model.removeMovieModel(removeMovieChoice);
+    }
+
+    private void viewAllMovies() {
+        List<Movie> movies = new ArrayList<>(model.viewAllMoviesModel());
+        int index = 1;
+        for ( Movie movie : movies) {
+            Util.message(index + ". Movie ID \t\t: " + movie.getId() + "\n" +
+                        "Movie Title \t\t: " + movie.getTitle() + "\n" +
+                    "Movie Genre \t\t: " + movie.getGenre() + "\n" +
+                    "Movie Description \t: " + movie.getDescription() + "\n" +
+                    "Movie Duration \t\t: " + movie.getDurationMins() + "\n");
+            index++;
+        }
+    }
+
+    private void addMovieView() {
+        Util.message("\n---Add new Movie---\n");
+        int movieId = getMovieId();
+        String title = getMovieTitle();
+        String genre = getMovieGenre();
+        String decription = getMovieDescription();
+        int duration = getMovieDuration();
+        model.addMovieModel(movieId, title, genre, decription, duration);
+    }
+
+    private String getMovieDescription() {
+        Util.prompt("Enter the Description : ");
+        return Util.readLine();
+    }
+
+    private int getMovieDuration() {
+        Util.prompt("Enter the duration of Movie : ");
+        return Util.readInt();
+    }
+
+    private String getMovieGenre() {
+        Util.prompt("Enter Movie Genre : ");
+        return Util.readLine();
+    }
+
+    private String getMovieTitle() {
+        Util.prompt("Enter Movie Title : ");
+        return Util.readLine();
+    }
+
+    private int getMovieId() {
+        Util.prompt("Enter Movie ID : ");
+        return Util.readInt();
     }
 
 
@@ -116,5 +175,26 @@ public class EmployeeView {
     public void registrationSuccess() {
         Util.printSuccess("Employee Registration Successfull");
         employeeLoginView();
+    }
+
+    public void addMovieFailure() {
+        Util.printError("Movie Id Already Exists...");
+        addMovieView();
+    }
+
+    public void addMovieSuccess() {
+        Util.printSuccess("Movie Added SuccessFull...");
+        showMenu();
+    }
+
+    public void removeMovieSuccess() {
+        Util.printSuccess("Movie Removed Successfull");
+        showMenu();
+    }
+
+    public void removeMovieFailure() {
+        Util.printError("Movie removed Failed..");
+        Util.printError("check the movie credentials");
+        showMenu();
     }
 }

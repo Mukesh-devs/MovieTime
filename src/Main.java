@@ -9,5 +9,4 @@ public class Main {
 //        new UserView().init();
         new MovieTimeBookingSystem().init();
     }
-
 }

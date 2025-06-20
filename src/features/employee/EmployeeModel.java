@@ -1,10 +1,15 @@
 package features.employee;
 
 import db.EmployeeDb;
+import db.MovieDb;
 import dto.Employee;
-import util.Util;
+import dto.Movie;
+
+import java.util.List;
+
 
 public class EmployeeModel {
+
     private EmployeeView view;
     final Employee employee = new Employee();
 
@@ -13,26 +18,6 @@ public class EmployeeModel {
     }
 
 
-    public void employeeLogin() {
-        String username = view.getUserName();
-        String password = view.getPassword();
-        if ( validCredentials(username,password)) {
-            view.loginSuccess();
-        }else {
-            Util.printError("Enter correct Credentials...");
-            employeeLogin();
-        }
-    }
-
-    void employeeRegister() {
-
-    }
-    boolean validCredentials(String username,String password) {
-        if ( username.equals(EmployeeDb.getInstance().getUserName()) && password.equals(EmployeeDb.getInstance().getpassword())) {
-            return true;
-        }
-        return false;
-    }
 
     void registration(Employee employee) {
         if ( EmployeeDb.getInstance().userAlreadyExist(employee.getUserName()) ) {
@@ -43,17 +28,9 @@ public class EmployeeModel {
             view.registrationSuccess();
         }
     }
-    boolean UserAlreadyExists(String username) {
 
-        if ( username.equals(EmployeeDb.getInstance().getUserName()) && EmployeeDb.getInstance().getUserName() != null) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    public void employeeRegisterModel(String name, String userName, String pass, String email) {
+    public void employeeRegisterModel(String name, String userName,  String email, String pass) {
+        Employee employee = new Employee();
         employee.setName(name);
         employee.setUserName(userName);
         employee.setPassword(pass);
@@ -71,4 +48,33 @@ public class EmployeeModel {
         }
     }
 
+    public void addMovieModel(int movieId, String title, String genre, String description, int duration) {
+        Movie movie = new Movie();
+        movie.setId(movieId);
+        movie.setTitle(title);
+        movie.setGenre(genre);
+        movie.setDescription(description);
+        movie.setDurationMins(duration);
+
+        if ( MovieDb.getInstance().movieIdExist(movieId)) {
+            view.addMovieFailure();
+        }
+        else {
+            MovieDb.getInstance().addMovie(movie);
+            view.addMovieSuccess();
+        }
+    }
+
+    public List<Movie> viewAllMoviesModel() {
+        return MovieDb.getInstance().getAllMovies();
+    }
+
+    public void removeMovieModel(int movieId) {
+        if ( MovieDb.getInstance().removeMovie(movieId)) {
+            view.removeMovieSuccess();
+        }
+        else {
+            view.removeMovieFailure();
+        }
+    }
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EmployeeDb {
-    Employee employee;
+    private Employee employee;
     private static EmployeeDb instance;
     Map<String, Employee> employees = new HashMap<>();
     public static EmployeeDb getInstance() {
