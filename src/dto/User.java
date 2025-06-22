@@ -1,7 +1,8 @@
 package dto;
 
 public class User {
-    private static int userId = 1000;
+    private static int userIdCounter = 1000;
+    private int userId;
     private String name;
     private String userName;
     private String password;
@@ -9,7 +10,7 @@ public class User {
     private String mobileNo;
 
     public User() {
-        userId++;
+        this.userId = userIdCounter++;
     }
     public String getMobileNo() {
         return mobileNo;

@@ -4,6 +4,7 @@ import db.EmployeeDb;
 import db.MovieDb;
 import dto.Employee;
 import dto.Movie;
+import features.showtime.ShowtimeView;
 import util.Util;
 
 import java.util.ArrayList;
@@ -85,19 +86,21 @@ public class EmployeeView {
         showMenu();
     }
 
-    private void showMenu() {
+    public void showMenu() {
         while (true) {
             Util.prompt("\n--- Employee Menu ---\n" +
                     "1. Add Movie\n" +
                     "2. Remove Movie\n" +
                     "3. View All Movies\n" +
-                    "4. Logout");
+                    "4. Showtime\n" +
+                    "5. Logout");
             int choice = Util.choice();
             switch (choice) {
                 case 1 -> addMovieView();
                 case 2 -> removeMovieView();
                 case 3 -> viewAllMovies();
-                case 4 -> {
+                case 4 -> new ShowtimeView().init();
+                case 5 -> {
                     Util.message("Logging out...");
                     init();
                 }

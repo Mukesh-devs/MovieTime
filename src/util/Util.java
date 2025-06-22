@@ -9,6 +9,7 @@ public class Util {
     public static final String RESET = "\u001B[0m";
     public static final Scanner scanner = new Scanner(System.in);
 
+    public static int loggedInUserId = -1;
     public static void printError(String error) {
         System.out.println(RED + "❌ Error : " + error + RESET);
     }

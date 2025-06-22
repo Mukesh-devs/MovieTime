@@ -1,19 +1,36 @@
 package dto;
 
 public class Booking {
+    private static int bookingIdCounter = 1000;
     private int bookingId;
     private int movieId;
+    private int showtimeId;
     private int userId;
-    private int availableSeats;
+    private int numberOfTickets;
     private String bookingDate;
     private double totalAmount;
 
+    public Booking() {
+        this.bookingId = bookingIdCounter++;
+    }
     public int getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
+    public int getNumberOfTickets() {
+        return numberOfTickets;
+    }
+
+    public void setNumberOfTickets(int numberOfSeats) {
+        this.numberOfTickets = numberOfSeats;
+    }
+
+    public int getShowtimeId() {
+        return showtimeId;
+    }
+
+    public void setShowtimeId(int showtimeId) {
+        this.showtimeId = showtimeId;
     }
 
     public int getMovieId() {
@@ -30,14 +47,6 @@ public class Booking {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getAvailableSeats() {
-        return availableSeats;
-    }
-
-    public void setAvailableSeats(int availableSeats) {
-        this.availableSeats = availableSeats;
     }
 
     public String getBookingDate() {

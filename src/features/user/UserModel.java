@@ -5,12 +5,12 @@ import dto.User;
 
 public class UserModel {
     private UserView view;
-    User user = new User();
     public UserModel(UserView userView) {
         this.view = userView;
     }
 
     public void userRegisterModel(String name, String userName, String mobile, String email, String pass) {
+        User user = new User();
         user.setName(name);
         user.setUserName(userName);
         user.setEmail(email);
@@ -28,7 +28,13 @@ public class UserModel {
 
     public void userLoginModel(String userName, String pass) {
         if ( UserDb.getInstance().UserloginValidation(userName,pass) ) {
-            view.loginSuccess();
+            User loggedInUser = UserDb.getInstance().getUser(userName);
+            if (loggedInUser != null) {
+                view.loginSuccess(loggedInUser.getUserId());
+            }
+            else {
+                view.loginFailure();
+            }
         }
         else {
             view.loginFailure();

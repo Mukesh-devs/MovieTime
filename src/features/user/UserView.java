@@ -1,6 +1,7 @@
 package features.user;
 
 import features.employee.EmployeeView;
+import features.ticketbooking.TicketBookingView;
 import util.Util;
 //import MovieTimeBookingSystem;
 import dto.User;
@@ -46,8 +47,9 @@ public class UserView {
         return Util.readLine();
     }
 
-    public void loginSuccess() {
+    public void loginSuccess(int userId) {
         Util.message("Login Successful..!");
+        Util.loggedInUserId = userId;
         userMenu();
     }
 
@@ -69,8 +71,10 @@ public class UserView {
             }
             case 2 -> {
                 // call bookTicket();
+                new TicketBookingView().init();
             }
             case 3 -> {
+                Util.loggedInUserId = -1;
                 init();
             }
             default -> {

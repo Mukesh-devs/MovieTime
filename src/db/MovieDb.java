@@ -2,6 +2,7 @@ package db;
 
 import dto.Movie;
 import dto.ShowTime;
+import features.showtime.ShowtimeView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -88,5 +89,30 @@ public class MovieDb {
             }
         }
         return movieRemoved;
+    }
+
+    public boolean isMovieIdExists(int movieId) {
+        for ( Movie movie : movies) {
+            if ( movie.getId() == movieId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ShowTime getShowtimeById(int showtimeId) {
+        for ( ShowTime showTime : showtimes) {
+            if( showTime.getShowtimeId() == showtimeId){
+                return showTime;
+            }
+        }
+        return null;
+    }
+    public void updateShowtime(ShowTime updatedShowtime) {
+        for ( int i = 0; i < showtimes.size(); i++ ) {
+            if ( showtimes.get(i).getShowtimeId() == updatedShowtime.getShowtimeId())
+                showtimes.set(i,updatedShowtime);
+                return;
+        }
     }
 }
