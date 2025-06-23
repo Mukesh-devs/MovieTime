@@ -24,43 +24,51 @@ public class ShowtimeView {
     }
     
     public void showtimeView() {
-        Util.message("\n------Manage Showtimes------");
-        Util.prompt("\n1. Add showtime" +
-                "\n2. Remove showtime" +
-                "\n3. Show All showtime" +
-                "\n4. back to employee menu" +
-                "\n5. Logout\n");
-        int choice = Util.choice();
-        
-        switch (choice) {
-            case 1 -> {
-                addShowtimetoMovieView();
-            }
-            case 2 -> {
-                removeShowtimeMovieView();
-            }
-            case 3 -> {
-                showAllShowtimeMovieView();
-            }
-            case 4 -> {
-                new EmployeeView().showMenu();
-            }
-            case 5 -> {
-                Util.message("Logging Out...");
-                new EmployeeView().init();
-            }
-            default -> {
-                Util.printError("Invalid Choice. Please select again.");
+        while (true) {
+            Util.message("\n------Manage Showtimes------");
+            Util.prompt("\n1. Add showtime" +
+                    "\n2. Remove showtime" +
+                    "\n3. Show All showtime" +
+                    "\n4. back to employee menu" +
+                    "\n5. Logout\n");
+            int choice = Util.choice();
+            if ( choice == Integer.MIN_VALUE) return;
+            switch (choice) {
+                case 1 -> {
+                    addShowtimetoMovieView();
+                }
+                case 2 -> {
+                    removeShowtimeMovieView();
+                }
+                case 3 -> {
+                    showAllShowtimeMovieView();
+                }
+                case 4 -> {
+                    new EmployeeView().showMenu();
+                    return;
+                }
+                case 5 -> {
+                    Util.message("Logging Out...");
+                    new EmployeeView().init();
+                    return;
+                }
+                default -> {
+                    Util.printError("Invalid Choice. Please select again.");
+                }
             }
         }
     }
 
     private void showAllShowtimeMovieView() {
         showAllShowtimeView();
-        showtimeView();
+//        showtimeView();
     }
     private void showAllShowtimeView() {
         List<ShowTime> showtime = new ArrayList<>(model.viewAllShowtimeModel());
+        if ( showtime.isEmpty()) {
+            Util.message("No showtimes to display.");
+            return;
+        }
         for ( ShowTime showTime : showtime) {
             Util.message("\nMovie ID : " + showTime.getMovieId() +
                     "\nShowtime ID : " + showTime.getShowtimeId() +
@@ -72,6 +80,7 @@ public class ShowtimeView {
     private void removeShowtimeMovieView() {
         showAllShowtimeView();
         int showtimeId = getShowtimeId();
+        if ( showtimeId == Integer.MIN_VALUE) return;
         if ( model.removeShowtimeModel(showtimeId) ) {
             Util.printSuccess("Showtime removed Successfully..");
         }
@@ -79,7 +88,7 @@ public class ShowtimeView {
             Util.printError("showtime remove failed" +
                     "\n please try again with correct credintials..");
         }
-        showtimeView();
+//        showtimeView();
     }
 
     private int getShowtimeId() {
@@ -89,6 +98,10 @@ public class ShowtimeView {
 
     void addShowtimetoMovieView() {
         List<Movie> movies = new ArrayList<>(model.viewAllMoviesModel());
+        if ( movies.isEmpty()) {
+            Util.message("No movies available to add showtime.");
+            return;
+        }
         int index = 1;
         for ( Movie movie : movies) {
             Util.message(index + ". Movie ID \t\t: " + movie.getId() + "\n" +
@@ -99,14 +112,22 @@ public class ShowtimeView {
             index++;
         }
         int movieId = getMovieId();
+        if ( movieId == Integer.MIN_VALUE) return;
         while (!model.isMovieIdExists(movieId)) {
+            Util.printError("Movie ID does not exist. Please enter a valid Movie ID.");
             movieId = getMovieId();
+            if ( movieId == Integer.MIN_VALUE) return;
         }
         String showtimeTime = getShowtimeTime();
+        if ( showtimeTime == null) return;
         String showtimeDate = getShowtimeDate();
+        if ( showtimeDate == null) return;
         String screenNumber = getScreenNumber();
+        if ( screenNumber == null) return;
         int totalSeats = getTotalSeats();
+        if ( totalSeats == Integer.MIN_VALUE) return;
         int ticketPrice = getTicketPrice();
+        if ( ticketPrice == Integer.MIN_VALUE) return;
 
         model.addShowtimetoMovieModel(movieId,showtimeDate,showtimeTime, screenNumber, totalSeats, ticketPrice);
     }
@@ -131,6 +152,7 @@ public class ShowtimeView {
         while (true) {
             Util.prompt("Enter the Showtime Time (HH:MM): ");
             timeInput = Util.readLine();
+            if ( timeInput == null) return null;
             try {
                 LocalTime.parse(timeInput);
                 break;
@@ -147,6 +169,7 @@ public class ShowtimeView {
         while (true) {
             Util.prompt("Enter the Showtime Date (YYYY-MM-DD) : ");
             dateInput = Util.readLine();
+            if ( dateInput == null) return null;
             try {
                 LocalDate.parse(dateInput);
                 break;
@@ -166,12 +189,12 @@ public class ShowtimeView {
 
     public void addShowtimeSuccess() {
         Util.printSuccess("Showtime added successfully..");
-        showtimeView();
+//        showtimeView();
     }
 
     public void addShowtimeFailure() {
         Util.printError("showtime not added" +
                 "\n please try again");
-        showtimeView();
+//        showtimeView();
     }
 }

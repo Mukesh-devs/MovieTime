@@ -11,13 +11,10 @@ import java.util.List;
 public class EmployeeModel {
 
     private EmployeeView view;
-    final Employee employee = new Employee();
 
     public EmployeeModel(EmployeeView employeeView) {
         this.view = employeeView;
     }
-
-
 
     void registration(Employee employee) {
         if ( EmployeeDb.getInstance().userAlreadyExist(employee.getUserName()) ) {
@@ -56,7 +53,7 @@ public class EmployeeModel {
         movie.setDescription(description);
         movie.setDurationMins(duration);
 
-        if ( MovieDb.getInstance().movieIdExist(movieId)) {
+        if ( MovieDb.getInstance().isMovieIdExists(movieId)) {
             view.addMovieFailure();
         }
         else {

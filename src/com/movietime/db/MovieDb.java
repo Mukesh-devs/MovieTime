@@ -24,14 +24,14 @@ public class MovieDb {
         return instance;
     }
 
-    public boolean movieIdExist(int movieId) {
-        for ( Movie movie : movies) {
-            if ( movie.getId() == movieId) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean movieIdExists(int movieId) {
+//        for ( Movie movie : movies) {
+//            if ( movie.getId() == movieId) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public void addMovie(Movie movie) {
         movies.add(movie);

@@ -19,10 +19,26 @@ public class Util {
     }
 
     public static String readLine() {
-        return scanner.nextLine();
+        String input = scanner.nextLine();
+        if ( input.trim().equalsIgnoreCase("exit")) {
+            return null;
+        }
+        return input;
     }
     public static int readInt() {
-        return Integer.parseInt(scanner.nextLine());
+        while (true ) {
+            String input = readLine();
+            if ( input == null) {
+                return Integer.MIN_VALUE;
+            }
+            try {
+                return Integer.parseInt(input);
+            }
+            catch (NumberFormatException e) {
+                printError("Invalid input. Please enter a number.");
+                prompt("Please try again");
+            }
+        }
     }
 
     public static void prompt(String prompt) {
@@ -34,7 +50,7 @@ public class Util {
 
     public static int choice() {
         System.out.println("Enter Your Choice : ");
-        return Integer.parseInt(scanner.nextLine());
+        return readInt();
     }
 
     public static void printSuccess(String success) {

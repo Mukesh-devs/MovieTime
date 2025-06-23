@@ -26,11 +26,17 @@ public class EmployeeView {
                     "\n3. change user" +
                     "\n4. Exit");
             int menuChoice = Util.choice();
+            if ( menuChoice == Integer.MAX_VALUE) {
+                return;
+            }
             switch (menuChoice) {
                 case 1 -> employeeRegisterView();
                 case 2 -> employeeLoginView();
                 case 3 -> new MovieTimeBookingSystem().init();
-                case 4 -> System.exit(0);
+                case 4 -> {
+                    Util.message("Exiting Employee Portal...");
+                    System.exit(0);
+                }
                 default -> Util.printError("Enter a valid choice.");
             }
         }
@@ -41,7 +47,10 @@ public class EmployeeView {
         String name;
         while (true) {
             Util.prompt("Enter your Full Name : ");
-            name = Util.readLine().trim();
+            name = Util.readLine();
+            if ( name == null) {
+                return null;
+            }
             if ( name.matches("[a-zA-Z ]{3,}")) {
                 return name;
             }
@@ -55,7 +64,10 @@ public class EmployeeView {
         String username;
         while (true) {
             Util.prompt("Enter your UserName : ");
-            username = Util.readLine().trim();
+            username = Util.readLine();
+            if ( username == null) {
+                return null;
+            }
             if ( username.matches("[a-zA-Z0-9 ]{3,}")) {
                 return username;
             }
@@ -69,7 +81,10 @@ public class EmployeeView {
         String pass;
         while (true) {
             Util.prompt("Enter the Password : ");
-            pass = Util.readLine().trim();
+            pass = Util.readLine();
+            if ( pass == null) {
+                return null;
+            }
             if ( pass.matches("[a-zA-Z0-9@#!$%^&*()_+={};:'<,>.?/]{5,}")) {
                 return pass;
             }
@@ -83,7 +98,10 @@ public class EmployeeView {
         String email;
         while (true) {
             Util.prompt("Enter the Email : ");
-            email = Util.readLine().trim();
+            email = Util.readLine();
+            if ( email == null) {
+                return null;
+            }
             if ( email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
                 return email;
             }
@@ -95,12 +113,17 @@ public class EmployeeView {
 
     void employeeRegisterView() {
         String name = getName();
+        if ( name == null) return;
         String userName = getUserName();
+        if ( userName == null) return;
         String email = getEmail();
+        if ( email == null) return;
         String pass;
         while (true) {
             pass = getPassword();
+            if ( pass == null) return;
             String repass = getRePassword();
+            if ( repass == null) return;
             if (pass.equals(repass)) {
                 break;
             } else {
@@ -114,7 +137,9 @@ public class EmployeeView {
         String repass;
         while (true) {
             Util.prompt("Enter the RePassword : ");
-            repass = Util.readLine().trim();
+            repass = Util.readLine();
+            if ( repass == null)
+                return null;
             if ( repass.matches("[a-zA-Z0-9@#!$%^&*()_+={};:'<,>.?/]{5,}")) {
                 return repass;
             }
@@ -127,7 +152,11 @@ public class EmployeeView {
 
     void employeeLoginView() {
         String username = getUserName();
+        if ( username == null)
+            return;
         String password = getPassword();
+        if ( password == null)
+            return;
         model.employeeLoginModel(username, password);
     }
 
@@ -142,12 +171,14 @@ public class EmployeeView {
                     "\n2. Manage Showtime" +
                     "\n3. Logout");
             int choice = Util.choice();
+            if ( choice == Integer.MIN_VALUE) return;
             switch (choice) {
                 case 1 -> movieView();
                 case 2 -> new ShowtimeView().init();
                 case 3 -> {
                     Util.message("Logging Out...");
                     init();
+                    return;
                 }
                 default -> Util.printError("Invalid Choice. Please Select Again");
             }
@@ -156,19 +187,24 @@ public class EmployeeView {
 
     private void movieView() {
         while (true) {
-            Util.prompt("\n--- Manage Movies ---" +
+            Util.prompt("\n --- Manage Movies ---" +
                     "\n1. Add Movie" +
                     "\n2. Remove Movie" +
                     "\n3. View All Movies" +
-                    "\n4. Logout");
+                    "\n4. Back to Employee Home" +
+                    "\n5. Exit");
             int choice = Util.choice();
+            if ( choice == Integer.MIN_VALUE) return;
             switch (choice) {
                 case 1 -> addMovieView();
                 case 2 -> removeMovieView();
                 case 3 -> viewAllMovies();
                 case 4 -> {
-                    Util.message("Logging Out...");
-                    init();
+                    return;
+                }
+                case 5 -> {
+                    Util.message("Exiting Application...");
+                    System.exit(0);
                 }
                 default -> Util.printError("Invalid Choice. Please select again");
             }
@@ -179,12 +215,17 @@ public class EmployeeView {
         viewAllMovies();
         Util.prompt("Enter the MovieId to remove : ");
         int removeMovieChoice = Util.readInt();
+        if ( removeMovieChoice == Integer.MIN_VALUE) return;
         model.removeMovieModel(removeMovieChoice);
     }
 
     private void viewAllMovies() {
         List<Movie> movies = new ArrayList<>(model.viewAllMoviesModel());
         int index = 1;
+        if ( movies.isEmpty()) {
+            Util.message("No movies to display.");
+            return;
+        }
         for ( Movie movie : movies) {
             Util.message(index + ". Movie ID \t\t: " + movie.getId() + "\n" +
                         "Movie Title \t\t: " + movie.getTitle() + "\n" +
@@ -198,10 +239,15 @@ public class EmployeeView {
     private void addMovieView() {
         Util.message("\n---Add new Movie---\n");
         int movieId = getMovieId();
+        if ( movieId == Integer.MIN_VALUE) return;
         String title = getMovieTitle();
+        if ( title == null) return;
         String genre = getMovieGenre();
+        if ( genre == null) return;
         String decription = getMovieDescription();
+        if ( decription == null) return;
         int duration = getMovieDuration();
+        if ( duration == Integer.MIN_VALUE) return;
         model.addMovieModel(movieId, title, genre, decription, duration);
     }
 
@@ -233,12 +279,12 @@ public class EmployeeView {
 
     public void loginFailure() {
         Util.printError("Login Credintials does not match");
-        employeeLoginView();
+//        employeeLoginView();
     }
 
     public void registrationFailure() {
         Util.printError("Employee Already Exists..");
-        employeeRegisterView();
+//        employeeRegisterView();
     }
 
     public void registrationSuccess() {
@@ -249,12 +295,12 @@ public class EmployeeView {
 
     public void addMovieFailure() {
         Util.printError("Movie Id Already Exists...");
-        addMovieView();
+//        addMovieView();
     }
 
     public void addMovieSuccess() {
         Util.printSuccess("Movie Added SuccessFull...");
-        showMenu();
+//        showMenu();
     }
 
     public void removeMovieSuccess() {

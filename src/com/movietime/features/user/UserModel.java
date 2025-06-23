@@ -14,7 +14,7 @@ public class UserModel {
         user.setName(name);
         user.setUserName(userName);
         user.setEmail(email);
-        user.setName(mobile);
+        user.setMobileNo(mobile);
         user.setPassword(pass);
 
         if (UserDb.getInstance().isAlreadyUser(user.getUserName())) {

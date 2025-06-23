@@ -51,6 +51,7 @@ public class TicketBookingModel {
 
         if ( bookingAdded) {
             selectedShowtime.setAvailableSeats(selectedShowtime.getAvailableSeats() - numberOfTickets);
+            MovieDb.getInstance().updateShowtime(selectedShowtime);
             return true;
         }
         else {

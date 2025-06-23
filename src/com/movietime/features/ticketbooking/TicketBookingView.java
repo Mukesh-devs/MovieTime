@@ -23,33 +23,37 @@ public class TicketBookingView {
     }
 
     private void manageTicketsView() {
-        Util.message("---- Manage Tickets ----");
-        Util.prompt("1. Book Tickets" +
-                "2. Upcoming Tickets" +
-                "3. Ticket History" +
-                "4. Back Menu" +
-                "5. Logout");
-        int choice = Util.choice();
-
-        switch (choice ){
-            case 1 -> {
-                ticketBookingView();
-            }
-            case 2 -> {
-                upcomingTicketsView();
-            }
-            case 3 -> {
-                ticketHistoryView();
-            }
-            case 4 -> {
-                new UserView().userMenu();
-            }
-            case 5 -> {
-                new UserView().init();
-            }
-            default -> {
-                Util.printError("Invalid Option.");
-                manageTicketsView();
+        while (true) {
+            Util.message("---- Manage Tickets ----");
+            Util.prompt("1. Book Tickets" +
+                    "2. Upcoming Tickets" +
+                    "3. Ticket History" +
+                    "4. Back Menu" +
+                    "5. Logout");
+            int choice = Util.choice();
+            if ( choice == Integer.MIN_VALUE) return;
+            switch (choice ) {
+                case 1 -> {
+                    ticketBookingView();
+                }
+                case 2 -> {
+                    upcomingTicketsView();
+                }
+                case 3 -> {
+                    ticketHistoryView();
+                }
+                case 4 -> {
+                    new UserView().userMenu();
+                    return;
+                }
+                case 5 -> {
+                    new UserView().init();
+                    return;
+                }
+                default -> {
+                    Util.printError("Invalid Option.");
+//                    manageTicketsView();
+                }
             }
         }
     }
@@ -84,7 +88,7 @@ public class TicketBookingView {
                 }
             }
         }
-        manageTicketsView();
+//        manageTicketsView();
     }
 
     private void upcomingTicketsView() {
@@ -118,7 +122,7 @@ public class TicketBookingView {
                 }
             }
         }
-        manageTicketsView();
+//        manageTicketsView();
     }
 
     private void ticketBookingView() {
@@ -126,15 +130,16 @@ public class TicketBookingView {
         new MovieView().allMoviesView();
         Util.prompt("Enter the Movie Id to Book the Ticket : ");
         int movieId = Util.readInt();
+        if ( movieId == Integer.MIN_VALUE) return;
         if (!MovieDb.getInstance().isMovieIdExists(movieId)) {
             Util.printError("Movie ID not found. Please enter a valid Movie ID.");
-            ticketBookingView();
+//            ticketBookingView();
             return;
         }
         List<ShowTime> movieShowtimes = MovieDb.getInstance().getShowtimesByMovieId(movieId);
         if ( movieShowtimes.isEmpty()) {
             Util.printError("No showtimes available for this movie.");
-            manageTicketsView();
+//            manageTicketsView();
             return;
         }
 
@@ -150,11 +155,13 @@ public class TicketBookingView {
 
         Util.prompt("Enter the Showtime ID you want to book : ");
         int showtimeId = Util.readInt();
+        if ( showtimeId == Integer.MIN_VALUE) return;
         Util.prompt("Enter the number of tickets : ");
         int numberOfTickets = Util.readInt();
+        if ( numberOfTickets == Integer.MIN_VALUE) return;
         if ( Util.loggedInUserId == -1) {
             Util.printError("you must logged in to book tickets.");
-            manageTicketsView();
+//            manageTicketsView();
             return;
         }
         int userId = Util.loggedInUserId;
@@ -167,9 +174,8 @@ public class TicketBookingView {
         else {
             Util.printError("Ticket booking failed. Please check the details and try again");
         }
-        manageTicketsView();
+//        manageTicketsView();
     }
-
 
     public void ErrorParsingDateTime(int bookingId, String message) {
         Util.printError("Error parsing date and time for Booking " + bookingId + " : " + message);
