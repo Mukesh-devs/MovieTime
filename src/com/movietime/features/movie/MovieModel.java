@@ -5,6 +5,7 @@ import com.movietime.dto.Movie;
 import com.movietime.dto.ShowTime;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class MovieModel {
 
@@ -20,10 +21,20 @@ public class MovieModel {
 
     public String showtimesByMovieId(int movieId) {
         StringBuilder sb = new StringBuilder();
-        for ( ShowTime showTime : MovieDb.getInstance().getShowtimesByMovieId(movieId)) {
+        List<ShowTime> showTimes = MovieDb.getInstance().getShowtimesByMovieId(movieId);
+        if ( showTimes.isEmpty()) {
+            return "No showTimes available.";
+        }
+        for ( ShowTime showTime : showTimes) {
             if ( showTime.getMovieId() == movieId) {
                 sb.append(showTime.getShowtimeTime());
             }
+            sb.append("\n Showtime ID : ").append(showTime.getShowtimeId())
+                    .append(", Date : ").append(showTime.getShowtimeDate())
+                    .append(", Time : ").append(showTime.getShowtimeTime())
+                    .append(", Screen : ").append(showTime.getScreenNumber())
+                    .append(", Price :").append(showTime.getTicketPrice())
+                    .append(", Available Seats : ").append(showTime.getAvailableSeats());
         }
         return sb.toString();
     }

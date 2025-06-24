@@ -34,6 +34,7 @@ public class UserView {
                 break;
             } else {
                 Util.printError("Password and Re-password do not match. Try again.");
+                continue;
             }
         }
         model.userRegisterModel(name,userName,mobile,email,pass);
@@ -137,7 +138,7 @@ public class UserView {
     public void registrationSuccess() {
         Util.printSuccess("Registration Successful..!");
         Util.message("Login to continue");
-//        userSignUpMenu();
+        userSignUpMenu();
 //        loginView();
     }
 

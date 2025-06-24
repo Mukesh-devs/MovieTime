@@ -7,6 +7,7 @@ import com.movietime.dto.ShowTime;
 import com.movietime.features.movie.MovieView;
 import com.movietime.features.user.UserView;
 import com.movietime.util.Util;
+import com.movietime.MovieTimeBookingSystem;
 
 import java.util.List;
 
@@ -47,12 +48,15 @@ public class TicketBookingView {
                     return;
                 }
                 case 5 -> {
-                    new UserView().init();
+                    Util.loggedInUserId = -1;
+                    Util.loggedInUser = null;
+                    new MovieTimeBookingSystem().init();
                     return;
                 }
                 default -> {
                     Util.printError("Invalid Option.");
 //                    manageTicketsView();
+
                 }
             }
         }

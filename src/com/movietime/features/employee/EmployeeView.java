@@ -26,7 +26,7 @@ public class EmployeeView {
                     "\n3. change user" +
                     "\n4. Exit");
             int menuChoice = Util.choice();
-            if ( menuChoice == Integer.MAX_VALUE) {
+            if ( menuChoice == Integer.MIN_VALUE) {
                 return;
             }
             switch (menuChoice) {
