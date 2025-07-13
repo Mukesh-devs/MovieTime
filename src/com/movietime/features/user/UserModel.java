@@ -1,12 +1,14 @@
 package com.movietime.features.user;
 
-import com.movietime.db.UserDb;
+import com.movietime.dao.UserDao;
 import com.movietime.dto.User;
 
 public class UserModel {
     private UserView view;
+    private UserDao userDao;
     public UserModel(UserView userView) {
         this.view = userView;
+        this.userDao = new UserDao();
     }
 
     public void userRegisterModel(String name, String userName, String mobile, String email, String pass) {
@@ -17,18 +19,18 @@ public class UserModel {
         user.setMobileNo(mobile);
         user.setPassword(pass);
 
-        if (UserDb.getInstance().isAlreadyUser(user.getUserName())) {
+        if (userDao.isAlreadyUser(user.getUserName())) {
             view.registerFailure();
         }
         else {
-            UserDb.getInstance().save(user);
+            userDao.save(user);
             view.registrationSuccess();
         }
     }
 
     public void userLoginModel(String userName, String pass) {
-        if ( UserDb.getInstance().UserloginValidation(userName,pass) ) {
-            User loggedInUser = UserDb.getInstance().getUser(userName);
+        if ( userDao.userLoginValidation(userName,pass) ) {
+            User loggedInUser = userDao.getUser(userName);
             if (loggedInUser != null) {
                 view.loginSuccess(loggedInUser.getUserId(), loggedInUser);
             }

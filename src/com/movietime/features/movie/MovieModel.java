@@ -3,6 +3,7 @@ package com.movietime.features.movie;
 import com.movietime.db.MovieDb;
 import com.movietime.dto.Movie;
 import com.movietime.dto.ShowTime;
+import com.movietime.dao.MovieDao;
 
 import java.util.List;
 import java.util.Scanner;
@@ -10,18 +11,20 @@ import java.util.Scanner;
 public class MovieModel {
 
     private final MovieView view;
+    private MovieDao movieDao;
 
     MovieModel(MovieView movieView) {
         this.view = movieView;
+        this.movieDao = new MovieDao();
     }
 
     public List<Movie> allMoviesModel() {
-        return MovieDb.getInstance().getAllMovies();
+        return movieDao.getAllMovies();
     }
 
     public String showtimesByMovieId(int movieId) {
         StringBuilder sb = new StringBuilder();
-        List<ShowTime> showTimes = MovieDb.getInstance().getShowtimesByMovieId(movieId);
+        List<ShowTime> showTimes = movieDao.getShowtimesByMovieId(movieId);
         if ( showTimes.isEmpty()) {
             return "No showTimes available.";
         }

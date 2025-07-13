@@ -76,11 +76,11 @@ public class TicketBookingView {
         }
         else {
             for (Booking booking : userBookings) {
-                Movie movie = MovieDb.getInstance().getMovieById(booking.getMovieId());
-                ShowTime showTime = MovieDb.getInstance().getShowtimeById(booking.getShowtimeId());
+                Movie movie = model.getMovieById(booking.getMovieId());
+                ShowTime showTime = model.getShowtimeById(booking.getShowtimeId());
                 if ( movie != null && showTime != null) {
                     Util.message("\nBooking Id" + booking.getBookingId() +
-                            "\nMovie Name : " + MovieDb.getInstance().getMovieById(booking.getMovieId()).getTitle() +
+                            "\nMovie Name : " + movie.getTitle() +
                             "\nShow Date : " + showTime.getShowtimeDate() +
                             "\nShow Time : " + showTime.getShowtimeTime() +
                             "\nScreen Number: " + showTime.getScreenNumber() +
@@ -110,11 +110,11 @@ public class TicketBookingView {
         }
         else {
             for (Booking booking : userBookings) {
-                Movie movie = MovieDb.getInstance().getMovieById(booking.getMovieId());
-                ShowTime showTime = MovieDb.getInstance().getShowtimeById(booking.getShowtimeId());
+                Movie movie = model.getMovieById(booking.getMovieId());
+                ShowTime showTime = model.getShowtimeById(booking.getShowtimeId());
                 if ( movie != null && showTime != null) {
                     Util.message("\nBooking Id" + booking.getBookingId() +
-                            "\nMovie Name : " + MovieDb.getInstance().getMovieById(booking.getMovieId()).getTitle() +
+                            "\nMovie Name : " + movie.getTitle() +
                             "\nShow Date : " + showTime.getShowtimeDate() +
                             "\nShow Time : " + showTime.getShowtimeTime() +
                             "\nScreen Number : " + showTime.getScreenNumber() +
@@ -135,12 +135,12 @@ public class TicketBookingView {
         Util.prompt("Enter the Movie Id to Book the Ticket : ");
         int movieId = Util.readInt();
         if ( movieId == Integer.MIN_VALUE) return;
-        if (!MovieDb.getInstance().isMovieIdExists(movieId)) {
+        if (!model.isMovieIdExists(movieId)) {
             Util.printError("Movie ID not found. Please enter a valid Movie ID.");
 //            ticketBookingView();
             return;
         }
-        List<ShowTime> movieShowtimes = MovieDb.getInstance().getShowtimesByMovieId(movieId);
+        List<ShowTime> movieShowtimes = model.getShowtimesByMovieId(movieId);
         if ( movieShowtimes.isEmpty()) {
             Util.printError("No showtimes available for this movie.");
 //            manageTicketsView();

@@ -5,6 +5,9 @@ import com.movietime.db.MovieDb;
 import com.movietime.dto.Booking;
 import com.movietime.dto.Movie;
 import com.movietime.dto.ShowTime;
+import com.movietime.dao.Bookingdao;
+import com.movietime.dao.MovieDao;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,15 +19,19 @@ import java.util.List;
 public class TicketBookingModel {
 
     private final TicketBookingView view;
+    private MovieDao movieDao;
+    private Bookingdao bookingDao;
 
     public TicketBookingModel(TicketBookingView ticketBookingView) {
         this.view = ticketBookingView;
+        this.bookingDao = new Bookingdao();
+        this.movieDao = new MovieDao();
     }
 
 
     public boolean ticketBookingModel(int movieId, int showtimeId, int userId, int numberOfTickets) {
 
-        ShowTime selectedShowtime = MovieDb.getInstance().getShowtimeById(showtimeId);
+        ShowTime selectedShowtime = movieDao.getShowtimeById(showtimeId);
 
         if ( selectedShowtime == null) {
             view.invalidShowtimeError();
@@ -47,11 +54,11 @@ public class TicketBookingModel {
         newBooking.setBookingDate(LocalDate.now().toString());
         newBooking.setTotalAmount(totalAmount);
 
-        boolean bookingAdded = BookingDb.getInstance().addBooking(newBooking);
+        boolean bookingAdded = bookingDao.addBooking(newBooking);
 
         if ( bookingAdded) {
             selectedShowtime.setAvailableSeats(selectedShowtime.getAvailableSeats() - numberOfTickets);
-            MovieDb.getInstance().updateShowtime(selectedShowtime);
+            movieDao.updateShowtime(selectedShowtime);
             return true;
         }
         else {
@@ -60,12 +67,12 @@ public class TicketBookingModel {
     }
 
     public List<Booking> getUpcomingBookings(int userId) {
-        List<Booking> userBookings = BookingDb.getInstance().getBookingsByUserId(userId);
+        List<Booking> userBookings = bookingDao.getBookingsByUserId(userId);
         LocalDateTime now = LocalDateTime.now();
         List<Booking> upcoming = new ArrayList<>();
 
         for ( Booking booking : userBookings) {
-            ShowTime showTime = MovieDb.getInstance().getShowtimeById(booking.getShowtimeId());
+            ShowTime showTime = movieDao.getShowtimeById(booking.getShowtimeId());
             if ( showTime != null) {
                 try {
                     LocalDate showtimeDate = LocalDate.parse(showTime.getShowtimeDate());
@@ -84,12 +91,12 @@ public class TicketBookingModel {
     }
 
     public List<Booking> getPastBookings(int userId) {
-        List<Booking> userBookings = BookingDb.getInstance().getBookingsByUserId(userId);
+        List<Booking> userBookings = bookingDao.getBookingsByUserId(userId);
         LocalDateTime now = LocalDateTime.now();
         List<Booking> past = new ArrayList<>();
 
         for ( Booking booking : userBookings) {
-            ShowTime showTime = MovieDb.getInstance().getShowtimeById(booking.getShowtimeId());
+            ShowTime showTime = movieDao.getShowtimeById(booking.getShowtimeId());
             if ( showTime != null) {
                 try {
                     LocalDate showtimeDate = LocalDate.parse(showTime.getShowtimeDate());
@@ -108,10 +115,26 @@ public class TicketBookingModel {
     }
 
     public List<ShowTime> viewAllShowtimeModel() {
-        return MovieDb.getInstance().getAllShowtimes();
+        return movieDao.getAllShowtimes();
     }
 
     public List<Movie> viewAllMoviesModel() {
-        return MovieDb.getInstance().getAllMovies();
+        return movieDao.getAllMovies();
+    }
+
+    public boolean isMovieIdExists(int movieId) {
+        return movieDao.isMovieIdExists(movieId);
+    }
+
+    public List<ShowTime> getShowtimesByMovieId(int movieId) {
+        return movieDao.getShowtimesByMovieId(movieId);
+    }
+
+    public Movie getMovieById(int movieId) {
+        return movieDao.getMovieById(movieId);
+    }
+
+    public ShowTime getShowtimeById(int showtimeId) {
+        return movieDao.getShowtimeById(showtimeId);
     }
 }
