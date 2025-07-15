@@ -99,6 +99,7 @@ public class Bookingdao {
     }
     private Booking mapResultSetToBooking(ResultSet rs) throws SQLException {
         Booking booking = new Booking();
+        booking.setBookingId(rs.getInt("bookingId"));
         booking.setMovieId(rs.getInt("movieId"));
         booking.setShowtimeId(rs.getInt("showtimeId"));
         booking.setUserId(rs.getInt("userId"));

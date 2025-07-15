@@ -13,6 +13,10 @@ public class Booking {
     public Booking() {
 //        this.bookingId = bookingIdCounter++;
     }
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
+    }
+
     public int getBookingId() {
         return bookingId;
     }
