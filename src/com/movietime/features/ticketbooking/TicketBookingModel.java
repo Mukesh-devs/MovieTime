@@ -1,5 +1,6 @@
 package com.movietime.features.ticketbooking;
 
+import com.movietime.dao.TheatreDao;
 import com.movietime.db.BookingDb;
 import com.movietime.db.MovieDb;
 import com.movietime.dto.Booking;
@@ -7,6 +8,7 @@ import com.movietime.dto.Movie;
 import com.movietime.dto.ShowTime;
 import com.movietime.dao.Bookingdao;
 import com.movietime.dao.MovieDao;
+import com.movietime.dto.Theatre;
 
 
 import java.time.LocalDate;
@@ -19,17 +21,29 @@ import java.util.List;
 public class TicketBookingModel {
 
     private final TicketBookingView view;
-    private MovieDao movieDao;
-    private Bookingdao bookingDao;
+    private final TheatreDao theatreDao;
+    private final MovieDao movieDao;
+    private final Bookingdao bookingDao;
 
     public TicketBookingModel(TicketBookingView ticketBookingView) {
         this.view = ticketBookingView;
         this.bookingDao = new Bookingdao();
         this.movieDao = new MovieDao();
+        this.theatreDao = new TheatreDao();
     }
 
+    public List<Theatre> findTheatresByLocation(String location) {
+        return theatreDao.getTheatresByLocation(location);
+    }
 
-    public boolean ticketBookingModel(int movieId, int showtimeId, int userId, int numberOfTickets) {
+    public List<Movie> findMoviesByTheatre(int theatreId) {
+        return movieDao.getMoviesByTheatre(theatreId);
+    }
+
+    public List<ShowTime> findShowtimes(int movieId, int theatreId) {
+        return movieDao.getShowtimesByMovieAndTheatre(movieId,theatreId);
+    }
+    public boolean ticketBookingModel( int showtimeId, int userId, int numberOfTickets) {
 
         ShowTime selectedShowtime = movieDao.getShowtimeById(showtimeId);
 
@@ -47,7 +61,7 @@ public class TicketBookingModel {
 
         Booking newBooking = new Booking();
 
-        newBooking.setMovieId(movieId);
+        newBooking.setMovieId(selectedShowtime.getMovieId());
         newBooking.setShowtimeId(showtimeId);
         newBooking.setUserId(userId);
         newBooking.setNumberOfTickets(numberOfTickets);

@@ -6,7 +6,7 @@ public class ShowTime {
     private int movieId;
     private String showtimeDate;
     private String showtimeTime;
-    private String screenNumber;
+    private int screenId;
     private int totalSeats;
     private int availableSeats;
     private int ticketPrice;
@@ -47,12 +47,12 @@ public class ShowTime {
         this.showtimeTime = showtimeTime;
     }
 
-    public String getScreenNumber() {
-        return screenNumber;
+    public int getScreenId() {
+        return screenId;
     }
 
-    public void setScreenNumber(String screenNumber) {
-        this.screenNumber = screenNumber;
+    public void setScreenId(int screenId) {
+        this.screenId = screenId;
     }
 
     public int getTotalSeats() {

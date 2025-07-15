@@ -19,15 +19,15 @@ public class Bookingdao {
     }
 
     public boolean addBooking(Booking booking) {
-        String query = "insert into bookings (bookingId, movieId, showtimeId, userId, numberOfTickets,bookingDate, totalAmount) values (?,?,?,?,?,?,?)";
+        String query = "insert into bookings (movieId, showtimeId, userId, numberOfTickets,bookingDate, totalAmount) values (?,?,?,?,?,?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, booking.getBookingId());
-            ps.setInt(2, booking.getMovieId());
-            ps.setInt(3, booking.getShowtimeId());
-            ps.setInt(4, booking.getUserId());
-            ps.setInt(5, booking.getNumberOfTickets());
-            ps.setString(6, booking.getBookingDate());
-            ps.setDouble(7, booking.getTotalAmount());
+//            ps.setInt(1, booking.getBookingId());
+            ps.setInt(1, booking.getMovieId());
+            ps.setInt(2, booking.getShowtimeId());
+            ps.setInt(3, booking.getUserId());
+            ps.setInt(4, booking.getNumberOfTickets());
+            ps.setString(5, booking.getBookingDate());
+            ps.setDouble(6, booking.getTotalAmount());
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         }

@@ -35,7 +35,7 @@ public class MovieModel {
             sb.append("\n Showtime ID : ").append(showTime.getShowtimeId())
                     .append(", Date : ").append(showTime.getShowtimeDate())
                     .append(", Time : ").append(showTime.getShowtimeTime())
-                    .append(", Screen : ").append(showTime.getScreenNumber())
+                    .append(", Screen ID : ").append(showTime.getScreenId())
                     .append(", Price :").append(showTime.getTicketPrice())
                     .append(", Available Seats : ").append(showTime.getAvailableSeats());
         }

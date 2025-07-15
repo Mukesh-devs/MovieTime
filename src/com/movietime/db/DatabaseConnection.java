@@ -7,8 +7,8 @@ import java.util.Properties;
 public class DatabaseConnection {
 
     private static String url = "jdbc:mysql://localhost:3306/movietime_db";
-    private static String username;
-    private static String password;
+    private static String username = "root";
+    private static String password = "Mukesh";
 
     private static Connection connection = null;
 

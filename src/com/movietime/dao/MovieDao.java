@@ -108,12 +108,12 @@ public class MovieDao {
     }
 
     public boolean addShowtime(ShowTime showTime) {
-        String query = "insert into showtimes (movieId, showtimeDate, showtimeTime, screenNumber, totalSeats, availableSeats, ticketPrice) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "insert into showtimes (movieId, showtimeDate, showtimeTime, screenId, totalSeats, availableSeats, ticketPrice) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, showTime.getMovieId());
             ps.setString(2, showTime.getShowtimeDate());
             ps.setString(3, showTime.getShowtimeTime());
-            ps.setString(4, showTime.getScreenNumber());
+            ps.setInt(4, showTime.getScreenId());
             ps.setInt(5, showTime.getTotalSeats());
             ps.setInt(6, showTime.getAvailableSeats());
             ps.setInt(7, showTime.getTicketPrice());
@@ -150,7 +150,7 @@ public class MovieDao {
         showTime.setMovieId(rs.getInt("movieId"));
         showTime.setShowtimeDate(rs.getString("showtimeDate"));
         showTime.setShowtimeTime(rs.getString("showtimeTime"));
-        showTime.setScreenNumber(rs.getString("screenNumber"));
+        showTime.setScreenId(rs.getInt("screenId"));
         showTime.setTotalSeats(rs.getInt("totalSeats"));
         showTime.setAvailableSeats(rs.getInt("availableSeats"));
         showTime.setTicketPrice(rs.getInt("ticketPrice"));
@@ -205,6 +205,52 @@ public class MovieDao {
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 showtimes.add(mapResultSetToShowTime(rs));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return showtimes;
+    }
+
+    public List<Movie> getMoviesByTheatre(int theatreId) {
+        List<Movie> movies = new ArrayList<>();
+        String query = "select distinct m.* from movies m " +
+                "join showtimes st on m.Id = st.movieId " +
+                "join screens sc on st.screenId = sc.screenId " +
+                "where sc.theatreId = ?";
+        try ( PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1,theatreId);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Movie movie = new Movie();
+                    movie.setId(rs.getInt("Id"));
+                    movie.setTitle(rs.getString("title"));
+                    movie.setGenre(rs.getString("genre"));
+                    movie.setDescription(rs.getString("description"));
+                    movie.setDurationMins(rs.getInt("durationMins"));
+                    movies.add(movie);
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return movies;
+    }
+
+    public List<ShowTime> getShowtimesByMovieAndTheatre(int movieId, int theatreId) {
+        List<ShowTime> showtimes = new ArrayList<>();
+        String query = "select st.* from showtimes st " +
+                "join screens sc on st.screenId = sc.screenId " +
+                "where st.movieId = ? and sc.theatreId = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, movieId);
+            ps.setInt(2,theatreId);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    showtimes.add(mapResultSetToShowTime(rs));
+                }
             }
         }
         catch (SQLException e) {

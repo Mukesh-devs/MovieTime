@@ -1,7 +1,9 @@
 package com.movietime.features.showtime;
 
 import com.movietime.dto.Movie;
+import com.movietime.dto.Screen;
 import com.movietime.dto.ShowTime;
+import com.movietime.dto.Theatre;
 import com.movietime.features.employee.EmployeeView;
 import com.movietime.util.Util;
 
@@ -118,18 +120,49 @@ public class ShowtimeView {
             movieId = getMovieId();
             if ( movieId == Integer.MIN_VALUE) return;
         }
+
+        List<Theatre> theatres = model.getAllTheatres();
+        if ( theatres.isEmpty()) {
+            Util.message("No theatres available. Please add a theatre first.");
+            return;
+        }
+        Util.message("\n--- Select a Theatre ---");
+        for ( Theatre theatre : theatres) {
+            Util.message("Theatre ID : " + theatre.getTheatreId() + " - " +
+                    theatre.getName() + " - " + theatre.getLocation());
+        }
+        Util.prompt("Enter the Theatre ID : ");
+        int theatreId = Util.readInt();
+        if ( theatreId == Integer.MIN_VALUE) return;
+
+        List<Screen> screens = model.getScreenByTheatre(theatreId);
+        if ( screens.isEmpty()) {
+            Util.message("No Screens for this theatre. Please add a screen first.");
+            return;
+        }
+        Util.message("\n--- Select a Screen ---");
+        for ( Screen screen : screens) {
+            Util.message("Screen ID : " + screen.getScreenId() +
+                    " - " + screen.getScreenName() +
+                    " (capacity : " + screen.getSeatingCapacity() + " )");
+        }
+
+        Util.prompt("Enter the screen ID: ");
+        int screenId = Util.readInt();
+        if ( screenId == Integer.MIN_VALUE) return;
+
         String showtimeTime = getShowtimeTime();
         if ( showtimeTime == null) return;
         String showtimeDate = getShowtimeDate();
         if ( showtimeDate == null) return;
-        String screenNumber = getScreenNumber();
-        if ( screenNumber == null) return;
-        int totalSeats = getTotalSeats();
-        if ( totalSeats == Integer.MIN_VALUE) return;
+//        String screenNumber = getScreenNumber();
+//        if ( screenNumber == null) return;
+//        int totalSeats = getTotalSeats();
+//        if ( totalSeats == Integer.MIN_VALUE) return;
         int ticketPrice = getTicketPrice();
         if ( ticketPrice == Integer.MIN_VALUE) return;
 
-        model.addShowtimetoMovieModel(movieId,showtimeDate,showtimeTime, screenNumber, totalSeats, ticketPrice);
+        model.addShowtimeModel(movieId,screenId, showtimeDate,showtimeTime,ticketPrice);
     }
 
     private int getTicketPrice() {

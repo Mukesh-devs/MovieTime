@@ -1,7 +1,7 @@
 package com.movietime.dto;
 
 public class Booking {
-    private static int bookingIdCounter = 1000;
+//    private static int bookingIdCounter = 1000;
     private int bookingId;
     private int movieId;
     private int showtimeId;
@@ -11,7 +11,7 @@ public class Booking {
     private double totalAmount;
 
     public Booking() {
-        this.bookingId = bookingIdCounter++;
+//        this.bookingId = bookingIdCounter++;
     }
     public int getBookingId() {
         return bookingId;

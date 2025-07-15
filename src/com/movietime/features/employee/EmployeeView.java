@@ -2,7 +2,9 @@ package com.movietime.features.employee;
 
 import com.movietime.dto.Employee;
 import com.movietime.dto.Movie;
+import com.movietime.dto.Theatre;
 import com.movietime.features.showtime.ShowtimeView;
+import com.movietime.features.theatre.TheatreView;
 import com.movietime.util.Util;
 import com.movietime.MovieTimeBookingSystem;
 
@@ -169,13 +171,15 @@ public class EmployeeView {
             Util.prompt("\n --- Employee Home ---" +
                     "\n1. Manage Movies" +
                     "\n2. Manage Showtime" +
-                    "\n3. Logout");
+                    "\n3. Manage Theatres" +
+                    "\n4. Logout");
             int choice = Util.choice();
             if ( choice == Integer.MIN_VALUE) return;
             switch (choice) {
                 case 1 -> movieView();
                 case 2 -> new ShowtimeView().init();
-                case 3 -> {
+                case 3 -> new TheatreView().showTheatreManagementMenu();
+                case 4 -> {
                     Util.message("Logging Out...");
                     init();
                     return;
